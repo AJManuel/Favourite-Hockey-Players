@@ -40,10 +40,10 @@ def menu():
         elif user_input == "3":
             name = input("Enter player name to find: ")
             players = database.getPlayersByName(connection, name)
-            print(players)
+            #print(players)
             # for player in players:
             #     #print(player)
-            #     print(f"{player[1]} ({player[2]}) - {player[3]}")
+            print(f"{players[1]} ({players[2]}) - {players[3]}")
         elif user_input == "4":
             pass
             # name = input("Enter player name to find: ")
