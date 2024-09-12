@@ -40,7 +40,7 @@ def getThePlayers(connection):
     
 def getPlayersByName(connection, name):
     with connection:
-        return connection.execute(getPlayersFromName, (name,)).fetchall()
+        return connection.execute(getPlayersFromName, (name,)).fetchone()
     
 # def getBestBeanPrep(connection,name):
 #     with connection:
