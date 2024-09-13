@@ -1,11 +1,24 @@
 import database
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
+import notebook
 
 
 window = tk.Tk()
 window.title('Placeholder')
 window.geometry("700x700")
+
+notebook = ttk.Notebook(window)
+tab1 = Frame(notebook)
+tab2 = Frame(notebook)
+tab3 = Frame(notebook)
+
+notebook.add(tab1, text="Home")
+notebook.add(tab2, text="Players")
+notebook.add(tab3, text="Sort/Search")
+
+
 
 menuPrompt = """Favourite Hockey Players
 
@@ -19,16 +32,22 @@ Please choose one of these options:
 
 Your selection:"""
 
+connection = database.connect()
+
 def menu():
-    connection = database.connect()
+    #connection = database.connect()
+    global connection
     database.createTables(connection)
     database.addDataSet(connection)
 
     while (user_input := input(menuPrompt)) != "5":
         if user_input == "1":
-            name = input("Enter Players name: ")
-            team = input("Enter how you have prepared it: ")
-            number = int(input("Enter player number: "))
+            name = addPlayerNameEntryBox.get()
+            team = addPlayerTeamEntryBox.get()
+            number = addPlayerNumberEntryBox.get()
+            #name = input("Enter Players name: ")
+            #team = input("Enter how you have prepared it: ")
+            #number = int(input("Enter player number: "))
 
             database.addPlayers(connection,name,team,number)
         elif user_input == "2":
@@ -52,6 +71,27 @@ def menu():
             # print(f"The best prep method for {name} is {bestMethod[2]}")
         else:
             print('Invalid Input')
+    
+def enterIntoData():
+    name = addPlayerNameEntryBox.get()
+    team = addPlayerTeamEntryBox.get()
+    number = addPlayerNumberEntryBox.get()
+    database.addPlayers(connection,name,team,number)
+
+titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
+titleLabel.grid(column=2, row=0)
+
+addPlayerNameEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Name')
+addPlayerNameEntryBox.grid(column=2,row=2)
+
+addPlayerTeamEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Team')
+addPlayerTeamEntryBox.grid(column=4,row=2)
+
+addPlayerNumberEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Number')
+addPlayerNumberEntryBox.grid(column=6,row=2)
+
+addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData)
+addPlayerInsertButton.grid(column=2,row=4)
 
 def endAll():
     connection = database.connect()
@@ -62,5 +102,7 @@ def addPage():
     connection = database.connect()
 
 
+
 menu()
+notebook.pack()
 window.mainloop()
