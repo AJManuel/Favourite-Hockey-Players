@@ -10,6 +10,8 @@ getAllPlayers = 'SELECT * FROM favourite_players;'
 
 getPlayersFromName = 'SELECT * FROM favourite_players WHERE name = ?;'
 
+deletePlayerFromTableByName = 'DELETE FROM favourite_players WHERE name = ?'
+
 # getBestPrepMethod = """
 # SELECT * FROM beans
 # WHERE name = ?
@@ -41,6 +43,10 @@ def getThePlayers(connection):
 def getPlayersByName(connection, name):
     with connection:
         return connection.execute(getPlayersFromName, (name,)).fetchone()
+    
+def deletePlayerFromTableByNameFunc(connection, name):
+    with connection:
+        return connection.execute(deletePlayerFromTableByName, (name,)).fetchone()
     
 # def getBestBeanPrep(connection,name):
 #     with connection:
