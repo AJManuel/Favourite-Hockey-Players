@@ -101,6 +101,20 @@ def addPlayerPage():
     addPlayerInsertButton.grid(column=2,row=4)
 
 def addViewPage():
+    players = database.getThePlayers(connection)
+    for i,e in enumerate(players):
+        print(i)
+        print(e)
+        
+        playerNameGrid = tk.Label(master=window, text=e[1])
+        playerNameGrid.grid(row=4 + i,column=2)
+
+        playerTeamGrid = tk.Label(master=window, text=e[2])
+        playerTeamGrid.grid(row=4 + i,column=3)
+
+        playerNumberGrid = tk.Label(master=window, text=e[3])
+        playerNumberGrid.grid(row=4 + i,column=4)
+    
     pass
 
 def addSearchPage():
@@ -170,6 +184,9 @@ searchFrame.grid(column=4,row=2)
 deletePlayerFrame = tk.Button(master=window, text='Delete Player',command=deletePlayerPage)
 deletePlayerFrame.grid(column=6,row=2)
 
+viewPlayerFrame = tk.Button(master=window, text='View Players',command=addViewPage)
+viewPlayerFrame.grid(column=8,row=2)
+
 
 
 
@@ -180,6 +197,7 @@ def endAll():
 
 def addPage():
     connection = database.connect()
+
 
 
 
