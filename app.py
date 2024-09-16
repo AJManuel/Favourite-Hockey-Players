@@ -34,6 +34,10 @@ Your selection:"""
 
 connection = database.connect()
 
+def clearFrame():
+    for widget in window.winfo_children():
+        widget.destroy()
+
 def menu():
     #connection = database.connect()
     global connection
@@ -71,27 +75,103 @@ def menu():
             # print(f"The best prep method for {name} is {bestMethod[2]}")
         else:
             print('Invalid Input')
-    
-def enterIntoData():
-    name = addPlayerNameEntryBox.get()
-    team = addPlayerTeamEntryBox.get()
-    number = addPlayerNumberEntryBox.get()
-    database.addPlayers(connection,name,team,number)
+
+def addPlayerPage():
+    clearFrame()
+    addPlayerNameEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Name')
+    addPlayerNameEntryBox.grid(column=2,row=2)
+
+    addPlayerTeamEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Team')
+    addPlayerTeamEntryBox.grid(column=4,row=2)
+
+    addPlayerNumberEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Number')
+    addPlayerNumberEntryBox.grid(column=6,row=2)
+
+
+    def enterIntoData():
+        name = addPlayerNameEntryBox.get()
+        team = addPlayerTeamEntryBox.get()
+        number = addPlayerNumberEntryBox.get()
+        if name or team or number == "":
+            print('error')
+            pass
+        database.addPlayers(connection,name,team,number)
+
+    addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData)
+    addPlayerInsertButton.grid(column=2,row=4)
+
+def addViewPage():
+    pass
+
+def addSearchPage():
+    clearFrame()
+    addPlayerSearchBox = tk.Entry(master=window, text='Test')
+    addPlayerSearchBox.grid(column=2,row=2)
+
+    def searchName():
+        name = addPlayerSearchBox.get()
+        players = database.getPlayersByName(connection, name)
+
+        print(players[2])
+
+        playerNameLabel = tk.Label(master=window, text="Player")
+        playerNameLabel.grid(row=4,column=2)
+
+        playerNameAns = tk.Label(master=window, text=players[1])
+        playerNameAns.grid(row=5,column=2)
+
+        playerTeamLabel = tk.Label(master=window, text="Team")
+        playerTeamLabel.grid(row=4,column=3)
+
+        playerTeamAns = tk.Label(master=window, text=players[2])
+        playerTeamAns.grid(row=5,column=3)
+
+        playerNumberLabel = tk.Label(master=window, text="Number")
+        playerNumberLabel.grid(row=4,column=4)
+
+        playerNumberAns = tk.Label(master=window, text=players[3])
+        playerNumberAns.grid(row=5,column=4)
+
+    def mytest():
+        try: 
+            searchName()
+        except TypeError:
+            print('Error')
+            playerErrorLabel = tk.Label(master=window, text="Player Not In Database")
+            playerErrorLabel.grid(row=4,column=2)
+
+    searchBtn = tk.Button(master=window,text="search", command=mytest)
+    searchBtn.grid(column=4,row=2)
+
+
+def deletePlayerPage():
+    clearFrame()
+    deletePlayerSearchBox = tk.Entry(master=window, text='Test')
+    deletePlayerSearchBox.grid(column=2,row=2)
+
+    def deletePlayer():
+        name = deletePlayerSearchBox.get()
+        database.deletePlayerFromTableByNameFunc(connection,name)
+
+    deletePlayerSubmitButton = tk.Button(master=window, text='Test',command=deletePlayer)
+    deletePlayerSubmitButton.grid(column=2,row=4)   
+
+
 
 titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
 titleLabel.grid(column=2, row=0)
 
-addPlayerNameEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Name')
-addPlayerNameEntryBox.grid(column=2,row=2)
+addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage)
+addFrame.grid(column=2,row=2)
 
-addPlayerTeamEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Team')
-addPlayerTeamEntryBox.grid(column=4,row=2)
+searchFrame = tk.Button(master=window, text='Search For Player',command=addSearchPage)
+searchFrame.grid(column=4,row=2)
 
-addPlayerNumberEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Number')
-addPlayerNumberEntryBox.grid(column=6,row=2)
+deletePlayerFrame = tk.Button(master=window, text='Delete Player',command=deletePlayerPage)
+deletePlayerFrame.grid(column=6,row=2)
 
-addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData)
-addPlayerInsertButton.grid(column=2,row=4)
+
+
 
 def endAll():
     connection = database.connect()
