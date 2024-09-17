@@ -2,7 +2,15 @@ import sqlite3
 
 createPlayerTable = 'CREATE TABLE IF NOT EXISTS favourite_players (id INTEGER PRIMARY KEY, name TEXT, team TEXT, number INTEGER);'
 
-baseSet = 'INSERT INTO favourite_players (name,team,number) VALUES("John Tavares", "Toronto Maple Leafs", 91);'
+baseSet = """INSERT INTO favourite_players (name,team,number) VALUES("John Tavares", "Toronto Maple Leafs", 91),
+("Auston Matthews","Toronto Maple Leafs",34),
+("Connor Mcdavid", "Edmonton Oilers",97),
+("Adam Fox", "New York Rangers",23),
+("Viktor Arvidsson", "Edmonton Oilers",33),
+("Tobias Bjornfort", "Florida Panthers",2),
+("Brendan Lemieux", "Carolina Hurricanes",22),
+("Timo Meier", "New Jersey Devils",28),
+("Brock Boeser", "Vancouer Canucks",6);"""
 
 insertPlayers = 'INSERT INTO favourite_players (name,team,number) VALUES(?,?,?);'
 
@@ -10,7 +18,7 @@ getAllPlayers = 'SELECT * FROM favourite_players;'
 
 getPlayersFromName = 'SELECT * FROM favourite_players WHERE name = ?;'
 
-deletePlayerFromTableByName = 'DELETE FROM favourite_players WHERE name = ?'
+deletePlayerFromTableByName = 'DELETE FROM favourite_players WHERE name = ?;'
 
 # getBestPrepMethod = """
 # SELECT * FROM beans
