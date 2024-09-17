@@ -2,6 +2,7 @@ import database
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import notebook
 
 
@@ -42,7 +43,7 @@ def menu():
     #connection = database.connect()
     global connection
     database.createTables(connection)
-    database.addDataSet(connection)
+    #database.addDataSet(connection)
 
     while (user_input := input(menuPrompt)) != "5":
         if user_input == "1":
@@ -96,16 +97,16 @@ def addPlayerPage():
             print('error')
             pass
         database.addPlayers(connection,name,team,number)
+        messagebox.showinfo("Success", "Player Added")
 
     addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData)
     addPlayerInsertButton.grid(column=2,row=4)
 
 def addViewPage():
+    clearFrame()
     players = database.getThePlayers(connection)
     for i,e in enumerate(players):
-        print(i)
-        print(e)
-        
+    
         playerNameGrid = tk.Label(master=window, text=e[1])
         playerNameGrid.grid(row=4 + i,column=2)
 
@@ -166,10 +167,14 @@ def deletePlayerPage():
     def deletePlayer():
         name = deletePlayerSearchBox.get()
         database.deletePlayerFromTableByNameFunc(connection,name)
+        messagebox.showinfo("Success", "Player Deleted")
 
     deletePlayerSubmitButton = tk.Button(master=window, text='Test',command=deletePlayer)
     deletePlayerSubmitButton.grid(column=2,row=4)   
 
+def addBaseSet():
+    database.addDataSet(connection)
+    messagebox.showinfo("Success", "Base Data Set Added")
 
 
 titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
@@ -186,6 +191,9 @@ deletePlayerFrame.grid(column=6,row=2)
 
 viewPlayerFrame = tk.Button(master=window, text='View Players',command=addViewPage)
 viewPlayerFrame.grid(column=8,row=2)
+
+addBaseSetFrame = tk.Button(master=window, text='Import Base Data Set',command=addBaseSet)
+addBaseSetFrame.grid(column=10,row=2)
 
 
 
