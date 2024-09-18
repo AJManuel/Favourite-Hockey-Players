@@ -3,12 +3,13 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import random
 import notebook
 
 
 window = tk.Tk()
 window.title('Placeholder')
-window.geometry("700x700")
+window.geometry("300x500")
 
 notebook = ttk.Notebook(window)
 tab1 = Frame(notebook)
@@ -79,14 +80,20 @@ def menu():
 
 def addPlayerPage():
     clearFrame()
-    addPlayerNameEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Name')
-    addPlayerNameEntryBox.grid(column=2,row=2)
+    entryNameText = tk.StringVar()
+    addPlayerNameEntryBox = tk.Entry(master=window, textvariable=entryNameText, width=30)
+    entryNameText.set("Enter A Players Name")
+    addPlayerNameEntryBox.grid(column=2,row=2, pady=10, padx=60)
 
-    addPlayerTeamEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Team')
-    addPlayerTeamEntryBox.grid(column=4,row=2)
+    entryTeamText = tk.StringVar()
+    addPlayerTeamEntryBox = tk.Entry(master=window, textvariable=entryTeamText, width=30)
+    entryTeamText.set("Enter The Players Team")
+    addPlayerTeamEntryBox.grid(column=2,row=4, pady=10, padx=60)
 
-    addPlayerNumberEntryBox = tk.Entry(master=window, text='Add Your Favourite Players Number')
-    addPlayerNumberEntryBox.grid(column=6,row=2)
+    entryNumberText = tk.StringVar()
+    addPlayerNumberEntryBox = tk.Entry(master=window, textvariable=entryNumberText, width=30)
+    entryNumberText.set("Enter The Players Number")
+    addPlayerNumberEntryBox.grid(column=2,row=6, pady=10, padx=60)
 
 
     def enterIntoData():
@@ -100,10 +107,19 @@ def addPlayerPage():
         messagebox.showinfo("Success", "Player Added")
 
     addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData)
-    addPlayerInsertButton.grid(column=2,row=4)
+    addPlayerInsertButton.grid(column=2,row=8, pady=10, padx=75)
 
 def addViewPage():
     clearFrame()
+    playerNameLabel = tk.Label(master=window, text="Player")
+    playerNameLabel.grid(column=2, row=2)
+
+    playerTeamLabel = tk.Label(master=window, text="Team")
+    playerTeamLabel.grid(column=3, row=2)
+
+    playerNumberLabel = tk.Label(master=window, text="Number")
+    playerNumberLabel.grid(column=4, row=2)
+
     players = database.getThePlayers(connection)
     for i,e in enumerate(players):
     
@@ -176,24 +192,39 @@ def addBaseSet():
     database.addDataSet(connection)
     messagebox.showinfo("Success", "Base Data Set Added")
 
+def imFeelingLuckyFunc():
+    tempNum = random.randint(0,3)
+    print(tempNum)
+    if tempNum == 0:
+        addPlayerPage()
+    elif tempNum == 1:
+        addSearchPage()
+    elif tempNum == 2:
+        deletePlayerPage()
+    elif tempNum == 3:
+        addViewPage()
+
 
 titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
-titleLabel.grid(column=2, row=0)
+titleLabel.grid(column=2, row=0, padx=75)
 
 addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage)
-addFrame.grid(column=2,row=2)
+addFrame.grid(column=2,row=2, pady=10, padx=10)
 
 searchFrame = tk.Button(master=window, text='Search For Player',command=addSearchPage)
-searchFrame.grid(column=4,row=2)
+searchFrame.grid(column=2,row=4, pady=10, padx=10)
 
 deletePlayerFrame = tk.Button(master=window, text='Delete Player',command=deletePlayerPage)
-deletePlayerFrame.grid(column=6,row=2)
+deletePlayerFrame.grid(column=2,row=6, pady=10, padx=10)
 
 viewPlayerFrame = tk.Button(master=window, text='View Players',command=addViewPage)
-viewPlayerFrame.grid(column=8,row=2)
+viewPlayerFrame.grid(column=2,row=8, pady=10, padx=10)
 
 addBaseSetFrame = tk.Button(master=window, text='Import Base Data Set',command=addBaseSet)
-addBaseSetFrame.grid(column=10,row=2)
+addBaseSetFrame.grid(column=2,row=10, pady=10, padx=10)
+
+imFeelingLuckyButton = tk.Button(master=window, text="I'm Feeling Lucky", command=imFeelingLuckyFunc)
+imFeelingLuckyButton.grid(column=2,row=12,pady=10, padx=10)
 
 
 
