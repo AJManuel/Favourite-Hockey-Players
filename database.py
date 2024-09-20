@@ -10,7 +10,8 @@ baseSet = """INSERT INTO favourite_players (name,team,number) VALUES("John Tavar
 ("Tobias Bjornfort", "Florida Panthers",2),
 ("Brendan Lemieux", "Carolina Hurricanes",22),
 ("Timo Meier", "New Jersey Devils",28),
-("Brock Boeser", "Vancouer Canucks",6);"""
+("Brock Boeser", "Vancouer Canucks",6),
+("Jani Hakanpaa", "Toronto Maple Leafs", 2);"""
 
 insertPlayers = 'INSERT INTO favourite_players (name,team,number) VALUES(?,?,?);'
 
