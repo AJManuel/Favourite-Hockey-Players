@@ -10,7 +10,7 @@ import random
 
 window = tk.Tk()
 window.title('Favourite Hockey Players')
-window.geometry("300x500")
+window.geometry("375x500")
 
 menuPrompt = """Favourite Hockey Players
 
@@ -76,7 +76,7 @@ def addPlayerPage():
     addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData, fg=fontColour)
     addPlayerInsertButton.grid(column=2,row=8, pady=10, padx=75)
 
-    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
     backButton.grid(column=2,row=10)
 
 #function for the view all players page
@@ -104,7 +104,7 @@ def addViewPage():
         playerNumberGrid = tk.Label(master=window, text=e[3])
         playerNumberGrid.grid(row=4 + i,column=4)
     totalPlayers = len(players)
-    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
     backButton.grid(column=3,row=totalPlayers+4)
     pass
 
@@ -112,6 +112,9 @@ def addViewPage():
 
 def addSearchPage():
     clearFrame()
+    playerSearchLabel = tk.Label(master=window, text="Enter The Players Name")
+    playerSearchLabel.grid(column=2,row=1)
+
     addPlayerSearchBox = tk.Entry(master=window, text='Search')
     addPlayerSearchBox.grid(column=2,row=2)
 
@@ -145,10 +148,10 @@ def addSearchPage():
             playerErrorLabel = tk.Label(master=window, text="Player Not In Database")
             playerErrorLabel.grid(row=4,column=2)
 
-    searchBtn = tk.Button(master=window,text="search", command=mytest)
+    searchBtn = tk.Button(master=window,text="Search", command=mytest, fg=fontColour)
     searchBtn.grid(column=2,row=7)
 
-    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
     backButton.grid(column=2,row=9)
 
 #function for the delete player page
@@ -165,7 +168,7 @@ def deletePlayerPage():
 
     deletePlayerSubmitButton = tk.Button(master=window, text='DELETE',command=deletePlayer, fg="#FF0000")
     deletePlayerSubmitButton.grid(column=2,row=4)   
-    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
     backButton.grid(column=2,row=6)
 
 #function to add a base set of players to the database
@@ -190,7 +193,11 @@ def imFeelingLuckyFunc():
 fontChoices = {
     "Red": "#FF0000",
     "Green": "#00FF00",
-    "Blue": "#0000FF"
+    "Blue": "#0000FF",
+    "Steel Blue": "#231A24",
+    "Pale Green": "#89AC76",
+    "Slate Grey": "#434750",
+    "Salmon": "#D95030"
 }
 fontChoicesKeys = []
 fontChoicesValues = []
@@ -213,7 +220,7 @@ def updateColour():
 
 def backFunc():
     clearFrame()
-    titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
+    titleLabel = tk.Label(master=window, text='Favourite Hockey Players', font=('arial', 15))
     titleLabel.grid(column=2, row=0, padx=75)
 
     addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage, fg=fontColour)
@@ -253,7 +260,7 @@ def backFunc():
 
 
 
-titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
+titleLabel = tk.Label(master=window, text='Favourite Hockey Players', font=('arial', 15))
 titleLabel.grid(column=2, row=0, padx=75)
 
 addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage, fg=fontColour)
