@@ -4,23 +4,13 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import random
-import notebook
 
+
+#Base Tkinter Setup
 
 window = tk.Tk()
-window.title('Placeholder')
+window.title('Favourite Hockey Players')
 window.geometry("300x500")
-
-notebook = ttk.Notebook(window)
-tab1 = Frame(notebook)
-tab2 = Frame(notebook)
-tab3 = Frame(notebook)
-
-notebook.add(tab1, text="Home")
-notebook.add(tab2, text="Players")
-notebook.add(tab3, text="Sort/Search")
-
-
 
 menuPrompt = """Favourite Hockey Players
 
@@ -33,6 +23,10 @@ Please choose one of these options:
 5) Exit.
 
 Your selection:"""
+
+fontColour = '#FF0000'
+
+
 
 connection = database.connect()
 
@@ -47,53 +41,26 @@ def menu():
     #database.addDataSet(connection)
 
     while (user_input := input(menuPrompt)) != "5":
-        if user_input == "1":
-            name = addPlayerNameEntryBox.get()
-            team = addPlayerTeamEntryBox.get()
-            number = addPlayerNumberEntryBox.get()
-            #name = input("Enter Players name: ")
-            #team = input("Enter how you have prepared it: ")
-            #number = int(input("Enter player number: "))
+        pass
 
-            database.addPlayers(connection,name,team,number)
-        elif user_input == "2":
-            players = database.getThePlayers(connection)
-
-            for player in players:
-                print(f"{player[1]} ({player[2]}) - {player[3]}")
-
-        elif user_input == "3":
-            name = input("Enter player name to find: ")
-            players = database.getPlayersByName(connection, name)
-            #print(players)
-            # for player in players:
-            #     #print(player)
-            print(f"{players[1]} ({players[2]}) - {players[3]}")
-        elif user_input == "4":
-            pass
-            # name = input("Enter player name to find: ")
-            # bestMethod = database.getBestBeanPrep(connection,name)
-
-            # print(f"The best prep method for {name} is {bestMethod[2]}")
-        else:
-            print('Invalid Input')
+#Function for the players
 
 def addPlayerPage():
     clearFrame()
     entryNameText = tk.StringVar()
-    addPlayerNameEntryBox = tk.Entry(master=window, textvariable=entryNameText, width=30)
+    addPlayerNameEntryBox = tk.Entry(master=window, textvariable=entryNameText, width=25)
     entryNameText.set("Enter A Players Name")
-    addPlayerNameEntryBox.grid(column=2,row=2, pady=10, padx=60)
+    addPlayerNameEntryBox.grid(column=2,row=2, pady=10, padx=30)
 
     entryTeamText = tk.StringVar()
-    addPlayerTeamEntryBox = tk.Entry(master=window, textvariable=entryTeamText, width=30)
+    addPlayerTeamEntryBox = tk.Entry(master=window, textvariable=entryTeamText, width=25)
     entryTeamText.set("Enter The Players Team")
-    addPlayerTeamEntryBox.grid(column=2,row=4, pady=10, padx=60)
+    addPlayerTeamEntryBox.grid(column=2,row=4, pady=10, padx=30)
 
     entryNumberText = tk.StringVar()
-    addPlayerNumberEntryBox = tk.Entry(master=window, textvariable=entryNumberText, width=30)
+    addPlayerNumberEntryBox = tk.Entry(master=window, textvariable=entryNumberText, width=25)
     entryNumberText.set("Enter The Players Number")
-    addPlayerNumberEntryBox.grid(column=2,row=6, pady=10, padx=60)
+    addPlayerNumberEntryBox.grid(column=2,row=6, pady=10, padx=30)
 
 
     def enterIntoData():
@@ -106,8 +73,13 @@ def addPlayerPage():
         database.addPlayers(connection,name,team,number)
         messagebox.showinfo("Success", "Player Added")
 
-    addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData)
+    addPlayerInsertButton = tk.Button(master=window, text='Add To Database', command=enterIntoData, fg=fontColour)
     addPlayerInsertButton.grid(column=2,row=8, pady=10, padx=75)
+
+    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton.grid(column=2,row=10)
+
+#function for the view all players page
 
 def addViewPage():
     clearFrame()
@@ -131,37 +103,39 @@ def addViewPage():
 
         playerNumberGrid = tk.Label(master=window, text=e[3])
         playerNumberGrid.grid(row=4 + i,column=4)
-    
+    totalPlayers = len(players)
+    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton.grid(column=3,row=totalPlayers+4)
     pass
+
+#function for the search all players page
 
 def addSearchPage():
     clearFrame()
-    addPlayerSearchBox = tk.Entry(master=window, text='Test')
+    addPlayerSearchBox = tk.Entry(master=window, text='Search')
     addPlayerSearchBox.grid(column=2,row=2)
 
     def searchName():
         name = addPlayerSearchBox.get()
         players = database.getPlayersByName(connection, name)
 
-        print(players[2])
-
-        playerNameLabel = tk.Label(master=window, text="Player")
-        playerNameLabel.grid(row=4,column=2)
+        playerNameLabel = tk.Label(master=window, text="Player: ")
+        playerNameLabel.grid(row=4,column=1)
 
         playerNameAns = tk.Label(master=window, text=players[1])
-        playerNameAns.grid(row=5,column=2)
+        playerNameAns.grid(row=4,column=2)
 
-        playerTeamLabel = tk.Label(master=window, text="Team")
-        playerTeamLabel.grid(row=4,column=3)
+        playerTeamLabel = tk.Label(master=window, text="Team: ")
+        playerTeamLabel.grid(row=5,column=1)
 
         playerTeamAns = tk.Label(master=window, text=players[2])
-        playerTeamAns.grid(row=5,column=3)
+        playerTeamAns.grid(row=5,column=2)
 
-        playerNumberLabel = tk.Label(master=window, text="Number")
-        playerNumberLabel.grid(row=4,column=4)
+        playerNumberLabel = tk.Label(master=window, text="Number: ")
+        playerNumberLabel.grid(row=6,column=1)
 
         playerNumberAns = tk.Label(master=window, text=players[3])
-        playerNumberAns.grid(row=5,column=4)
+        playerNumberAns.grid(row=6,column=2)
 
     def mytest():
         try: 
@@ -172,8 +146,12 @@ def addSearchPage():
             playerErrorLabel.grid(row=4,column=2)
 
     searchBtn = tk.Button(master=window,text="search", command=mytest)
-    searchBtn.grid(column=4,row=2)
+    searchBtn.grid(column=2,row=7)
 
+    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton.grid(column=2,row=9)
+
+#function for the delete player page
 
 def deletePlayerPage():
     clearFrame()
@@ -185,16 +163,21 @@ def deletePlayerPage():
         database.deletePlayerFromTableByNameFunc(connection,name)
         messagebox.showinfo("Success", "Player Deleted")
 
-    deletePlayerSubmitButton = tk.Button(master=window, text='Test',command=deletePlayer)
+    deletePlayerSubmitButton = tk.Button(master=window, text='DELETE',command=deletePlayer, fg="#FF0000")
     deletePlayerSubmitButton.grid(column=2,row=4)   
+    backButton = tk.Button(master=window,text="back", command=backFunc, fg=fontColour)
+    backButton.grid(column=2,row=6)
+
+#function to add a base set of players to the database
 
 def addBaseSet():
     database.addDataSet(connection)
     messagebox.showinfo("Success", "Base Data Set Added")
 
+#function for the im feeling lucky button
+
 def imFeelingLuckyFunc():
     tempNum = random.randint(0,3)
-    print(tempNum)
     if tempNum == 0:
         addPlayerPage()
     elif tempNum == 1:
@@ -204,42 +187,102 @@ def imFeelingLuckyFunc():
     elif tempNum == 3:
         addViewPage()
 
+fontChoices = {
+    "Red": "#FF0000",
+    "Green": "#00FF00",
+    "Blue": "#0000FF"
+}
+fontChoicesKeys = []
+fontChoicesValues = []
+for each in fontChoices:
+    fontChoicesKeys.append(each)
+for each in fontChoices:
+    fontChoicesValues.append(fontChoices[each])
+
+def updateColour():
+    currentColour = fontColourButton.get()
+    for each in fontChoices:
+        if currentColour == each:
+            global fontColour
+            fontColour = fontChoices[each]
+        elif currentColour != each:
+            print('Not This Colour')
+    backFunc()
+
+
+
+def backFunc():
+    clearFrame()
+    titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
+    titleLabel.grid(column=2, row=0, padx=75)
+
+    addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage, fg=fontColour)
+    addFrame.grid(column=2,row=2, pady=10, padx=10)
+
+    searchFrame = tk.Button(master=window, text='Search For Player',command=addSearchPage, fg=fontColour)
+    searchFrame.grid(column=2,row=4, pady=10, padx=10)
+
+    deletePlayerFrame = tk.Button(master=window, text='Delete Player',command=deletePlayerPage, fg=fontColour)
+    deletePlayerFrame.grid(column=2,row=6, pady=10, padx=10)
+
+    viewPlayerFrame = tk.Button(master=window, text='View Players',command=addViewPage, fg=fontColour)
+    viewPlayerFrame.grid(column=2,row=8, pady=10, padx=10)
+
+    addBaseSetFrame = tk.Button(master=window, text='Import Base Data Set',command=addBaseSet, fg=fontColour)
+    addBaseSetFrame.grid(column=2,row=10, pady=10, padx=10)
+
+    imFeelingLuckyButton = tk.Button(master=window, text="I'm Feeling Lucky", command=imFeelingLuckyFunc, fg=fontColour)
+    imFeelingLuckyButton.grid(column=2,row=12,pady=10, padx=10)
+
+    fontColourButton2 = ttk.Combobox(master=window,values=fontChoicesKeys)
+    fontColourButton2.grid(column=2,row=14,padx=10,pady=10) 
+
+    def repeatUpdateColour():
+        currentColour = fontColourButton2.get()
+        for each in fontChoices:
+            if currentColour == each:
+                global fontColour
+                fontColour = fontChoices[each]
+            elif currentColour != each:
+                print('Not this colour')
+        backFunc()
+
+    updateColourButton = tk.Button(master=window,text="Update Font",command = repeatUpdateColour, fg=fontColour)
+    updateColourButton.grid(column=2,row=16,pady=10,padx=10) 
+#tkinter set up for the opening page
+
+
 
 titleLabel = tk.Label(master=window, text='Favourite Hockey Players')
 titleLabel.grid(column=2, row=0, padx=75)
 
-addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage)
+addFrame = tk.Button(master=window, text='Add Player',command=addPlayerPage, fg=fontColour)
 addFrame.grid(column=2,row=2, pady=10, padx=10)
 
-searchFrame = tk.Button(master=window, text='Search For Player',command=addSearchPage)
+searchFrame = tk.Button(master=window, text='Search For Player',command=addSearchPage, fg=fontColour)
 searchFrame.grid(column=2,row=4, pady=10, padx=10)
 
-deletePlayerFrame = tk.Button(master=window, text='Delete Player',command=deletePlayerPage)
+deletePlayerFrame = tk.Button(master=window, text='Delete Player',command=deletePlayerPage, fg=fontColour)
 deletePlayerFrame.grid(column=2,row=6, pady=10, padx=10)
 
-viewPlayerFrame = tk.Button(master=window, text='View Players',command=addViewPage)
+viewPlayerFrame = tk.Button(master=window, text='View Players',command=addViewPage, fg=fontColour)
 viewPlayerFrame.grid(column=2,row=8, pady=10, padx=10)
 
-addBaseSetFrame = tk.Button(master=window, text='Import Base Data Set',command=addBaseSet)
+addBaseSetFrame = tk.Button(master=window, text='Import Base Data Set',command=addBaseSet, fg=fontColour)
 addBaseSetFrame.grid(column=2,row=10, pady=10, padx=10)
 
-imFeelingLuckyButton = tk.Button(master=window, text="I'm Feeling Lucky", command=imFeelingLuckyFunc)
+imFeelingLuckyButton = tk.Button(master=window, text="I'm Feeling Lucky", command=imFeelingLuckyFunc, fg=fontColour)
 imFeelingLuckyButton.grid(column=2,row=12,pady=10, padx=10)
 
 
+fontColourButton = ttk.Combobox(master=window,values=fontChoicesKeys)
+fontColourButton.grid(column=2,row=14,padx=10,pady=10)
 
 
-def endAll():
-    connection = database.connect()
-    database.deleteFunc(connection)
+updateColourButton = tk.Button(master=window,text="Update Font",command=updateColour, fg=fontColour)
+updateColourButton.grid(column=2,row=16,pady=10,padx=10)
 
-
-def addPage():
-    connection = database.connect()
-
-
-
+#final set up parts
 
 menu()
-notebook.pack()
 window.mainloop()
