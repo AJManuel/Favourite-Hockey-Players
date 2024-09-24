@@ -10,7 +10,7 @@ import random
 
 window = tk.Tk()
 window.title('Favourite Hockey Players')
-window.geometry("375x500")
+window.geometry("525x500")
 
 menuPrompt = """Favourite Hockey Players
 
@@ -50,17 +50,17 @@ def addPlayerPage():
     entryNameText = tk.StringVar()
     addPlayerNameEntryBox = tk.Entry(master=window, textvariable=entryNameText, width=25)
     entryNameText.set("Enter A Players Name")
-    addPlayerNameEntryBox.grid(column=2,row=2, pady=10, padx=30)
+    addPlayerNameEntryBox.grid(column=2,row=2, pady=10,padx=75)
 
     entryTeamText = tk.StringVar()
     addPlayerTeamEntryBox = tk.Entry(master=window, textvariable=entryTeamText, width=25)
     entryTeamText.set("Enter The Players Team")
-    addPlayerTeamEntryBox.grid(column=2,row=4, pady=10, padx=30)
+    addPlayerTeamEntryBox.grid(column=2,row=4, pady=10,padx=75)
 
     entryNumberText = tk.StringVar()
     addPlayerNumberEntryBox = tk.Entry(master=window, textvariable=entryNumberText, width=25)
     entryNumberText.set("Enter The Players Number")
-    addPlayerNumberEntryBox.grid(column=2,row=6, pady=10, padx=30)
+    addPlayerNumberEntryBox.grid(column=2,row=6, pady=10,padx=75)
 
 
     def enterIntoData():
@@ -79,10 +79,13 @@ def addPlayerPage():
     backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
     backButton.grid(column=2,row=10)
 
+sortOptions = ['Name', 'Team', 'Number']
+playerSortBox = ttk.Combobox(master=window,values=sortOptions)
 #function for the view all players page
 
 def addViewPage():
     clearFrame()
+    global playerSortBox
     playerNameLabel = tk.Label(master=window, text="Player")
     playerNameLabel.grid(column=2, row=2)
 
@@ -92,17 +95,123 @@ def addViewPage():
     playerNumberLabel = tk.Label(master=window, text="Number")
     playerNumberLabel.grid(column=4, row=2)
 
+    playerSortBox = ttk.Combobox(master=window,values=sortOptions)
+    playerSortBox.grid(column=5,row=2)
+
+    def playerAllSort():
+        global playerSortBox
+        currentOption = playerSortBox.get()
+        if currentOption == 'Name':
+            clearFrame()
+            playerNameLabel = tk.Label(master=window, text="Player")
+            playerNameLabel.grid(column=2, row=2)
+
+            playerTeamLabel = tk.Label(master=window, text="Team")
+            playerTeamLabel.grid(column=3, row=2)
+
+            playerNumberLabel = tk.Label(master=window, text="Number")
+            playerNumberLabel.grid(column=4, row=2)
+
+            playerSortBox = ttk.Combobox(master=window,values=sortOptions)
+            playerSortBox.grid(column=5,row=2)
+
+            playerSortConfirm = tk.Button(master=window, text='Sort',fg=fontColour,command=playerAllSort)
+            playerSortConfirm.grid(column=5,row=3)
+
+            backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
+            backButton.grid(column=3,row=totalPlayers+4)
+            allPlayers = database.getPlayersSortedName(connection)
+            print(allPlayers)
+            for i,e in enumerate(allPlayers):
+    
+                playerNameGrid = tk.Label(master=window, text=e[1])
+                playerNameGrid.grid(row=3 + i,column=2)
+
+                playerTeamGrid = tk.Label(master=window, text=e[2])
+                playerTeamGrid.grid(row=3 + i,column=3)
+
+                playerNumberGrid = tk.Label(master=window, text=e[3])
+                playerNumberGrid.grid(row=3 + i,column=4)
+        elif currentOption == 'Team':
+            clearFrame()
+            playerNameLabel = tk.Label(master=window, text="Player")
+            playerNameLabel.grid(column=2, row=2)
+
+            playerTeamLabel = tk.Label(master=window, text="Team")
+            playerTeamLabel.grid(column=3, row=2)
+
+            playerNumberLabel = tk.Label(master=window, text="Number")
+            playerNumberLabel.grid(column=4, row=2)
+
+            playerSortBox = ttk.Combobox(master=window,values=sortOptions)
+            playerSortBox.grid(column=5,row=2)
+
+            playerSortConfirm = tk.Button(master=window, text='Sort',fg=fontColour,command=playerAllSort)
+            playerSortConfirm.grid(column=5,row=3)
+
+            backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
+            backButton.grid(column=3,row=totalPlayers+4)
+            allPlayers = database.getPlayersSortedTeam(connection)
+            print(allPlayers)
+            for i,e in enumerate(allPlayers):
+    
+                playerNameGrid = tk.Label(master=window, text=e[1])
+                playerNameGrid.grid(row=3 + i,column=2)
+
+                playerTeamGrid = tk.Label(master=window, text=e[2])
+                playerTeamGrid.grid(row=3 + i,column=3)
+
+                playerNumberGrid = tk.Label(master=window, text=e[3])
+                playerNumberGrid.grid(row=3 + i,column=4)
+        elif currentOption == 'Number':
+            clearFrame()
+            playerNameLabel = tk.Label(master=window, text="Player")
+            playerNameLabel.grid(column=2, row=2)
+
+            playerTeamLabel = tk.Label(master=window, text="Team")
+            playerTeamLabel.grid(column=3, row=2)
+
+            playerNumberLabel = tk.Label(master=window, text="Number")
+            playerNumberLabel.grid(column=4, row=2)
+
+            playerSortBox = ttk.Combobox(master=window,values=sortOptions)
+            playerSortBox.grid(column=5,row=2)
+
+            playerSortConfirm = tk.Button(master=window, text='Sort',fg=fontColour,command=playerAllSort)
+            playerSortConfirm.grid(column=5,row=3)
+
+            backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
+            backButton.grid(column=3,row=totalPlayers+4)
+            allPlayers = database.getPlayersSortedNum(connection)
+            print(allPlayers)
+            for i,e in enumerate(allPlayers):
+    
+                playerNameGrid = tk.Label(master=window, text=e[1])
+                playerNameGrid.grid(row=3 + i,column=2)
+
+                playerTeamGrid = tk.Label(master=window, text=e[2])
+                playerTeamGrid.grid(row=3 + i,column=3)
+
+                playerNumberGrid = tk.Label(master=window, text=e[3])
+                playerNumberGrid.grid(row=3 + i,column=4)
+        else:
+            print('error')
+            messagebox.showerror('Error', 'Please select a proper sorting method')
+
+    playerSortConfirm = tk.Button(master=window, text='Sort',fg=fontColour,command=playerAllSort)
+    playerSortConfirm.grid(column=5,row=3)
+
     players = database.getThePlayers(connection)
     for i,e in enumerate(players):
     
         playerNameGrid = tk.Label(master=window, text=e[1])
-        playerNameGrid.grid(row=4 + i,column=2)
+        playerNameGrid.grid(row=3 + i,column=2)
 
         playerTeamGrid = tk.Label(master=window, text=e[2])
-        playerTeamGrid.grid(row=4 + i,column=3)
+        playerTeamGrid.grid(row=3 + i,column=3)
 
         playerNumberGrid = tk.Label(master=window, text=e[3])
-        playerNumberGrid.grid(row=4 + i,column=4)
+        playerNumberGrid.grid(row=3 + i,column=4)
     totalPlayers = len(players)
     backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
     backButton.grid(column=3,row=totalPlayers+4)
@@ -158,8 +267,11 @@ def addSearchPage():
 
 def deletePlayerPage():
     clearFrame()
+    deletePlayerLabel = tk.Label(master=window, text="Enter The Players Full Name To Delete")
+    deletePlayerLabel.grid(column=2,row=1,padx=75)
+
     deletePlayerSearchBox = tk.Entry(master=window, text='Test')
-    deletePlayerSearchBox.grid(column=2,row=2)
+    deletePlayerSearchBox.grid(column=2,row=2,padx=75)
 
     def deletePlayer():
         name = deletePlayerSearchBox.get()
@@ -167,9 +279,9 @@ def deletePlayerPage():
         messagebox.showinfo("Success", "Player Deleted")
 
     deletePlayerSubmitButton = tk.Button(master=window, text='DELETE',command=deletePlayer, fg="#FF0000")
-    deletePlayerSubmitButton.grid(column=2,row=4)   
+    deletePlayerSubmitButton.grid(column=2,row=4,padx=75)   
     backButton = tk.Button(master=window,text="Back", command=backFunc, fg=fontColour)
-    backButton.grid(column=2,row=6)
+    backButton.grid(column=2,row=6,padx=75)
 
 #function to add a base set of players to the database
 
