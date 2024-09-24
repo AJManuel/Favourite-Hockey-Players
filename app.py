@@ -12,17 +12,8 @@ window = tk.Tk()
 window.title('Favourite Hockey Players')
 window.geometry("525x500")
 
-menuPrompt = """Favourite Hockey Players
-
-Please choose one of these options:
-
-1) Add a new player
-2) See all player
-3) Find a player by name
-4) See which preparation method is best for a bean
-5) Exit.
-
-Your selection:"""
+menuPrompt = """
+"""
 
 fontColour = '#FF0000'
 
