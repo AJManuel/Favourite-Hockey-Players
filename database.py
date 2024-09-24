@@ -28,6 +28,12 @@ deletePlayerFromTableByName = 'DELETE FROM favourite_players WHERE name = ?;'
 # LIMIT 1;
 # """
 
+sortPlayersByName = 'SELECT * FROM favourite_players ORDER BY name ASC;'
+
+sortPlayersByTeam = 'SELECT * FROM favourite_players ORDER BY team ASC;'
+
+sortPlayersByNum = 'SELECT * FROM favourite_players ORDER BY number ASC;'
+
 deleteAll = 'DROP TABLE data;'
 
 def connect():
@@ -49,6 +55,18 @@ def getThePlayers(connection):
     with connection:
         return connection.execute(getAllPlayers).fetchall()
     
+def getPlayersSortedName(connection):
+    with connection:
+        return connection.execute(sortPlayersByName).fetchall()
+
+def getPlayersSortedTeam(connection):
+    with connection:
+        return connection.execute(sortPlayersByTeam).fetchall()
+    
+def getPlayersSortedNum(connection):
+    with connection:
+        return connection.execute(sortPlayersByNum).fetchall()
+    
 def getPlayersByName(connection, name):
     with connection:
         return connection.execute(getPlayersFromName, (name,)).fetchone()
@@ -57,6 +75,7 @@ def deletePlayerFromTableByNameFunc(connection, name):
     with connection:
         return connection.execute(deletePlayerFromTableByName, (name,)).fetchone()
     
+   
 # def getBestBeanPrep(connection,name):
 #     with connection:
 #         return connection.execute(getBestPrepMethod, (name,)).fetchone()
